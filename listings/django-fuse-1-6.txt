@@ -1,6 +1,7 @@
 from django.template import Context, Template
 
-from django_fuse import DirectoryResponse, FileResponse
+from django_fuse import DirectoryResponse, \
+    FileResponse
 
 def index():
     items = ['file.txt']

@@ -6,7 +6,8 @@
 \setbeamercolor{normal text}{fg=white}
 \setbeamercolor{structure}{fg=white}
 
-% Nicer title font
+% Nicer fonts
+\usefonttheme{structurebold}
 \setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
 
 \usepackage{graphicx}
@@ -38,12 +39,14 @@
 	\frame {
 		\frametitle{Filesystems}
 
-		Filesystems "just" implement an API for manipulating files.
+		Filesystems "just" implement an API for manipulating files
+
+		\pause
 
 		\begin{itemize}
-			\item Locally (ext2, ext3, NTFS)
-			\item Remotely (NFS, SMB)
-			\item Nowhere ({\tt /proc})
+			\item Locally (ext2, ext3, NTFS) \pause
+			\item Remotely (NFS, SMB) \pause
+			\item Nowhere ({\tt /proc}) \pause
 			\item Combination of the above
 		\end{itemize}
 	}
@@ -51,27 +54,38 @@
 	\frame {
 		\frametitle{Userspace filesystems}
 
-		$\rightarrow$ Filesystems not implemented in the kernel.
+		\pause
+
+		$\rightarrow$ Filesystems not implemented in the kernel
+
+		\pause
 
 		\begin{itemize}
-			\item No root privileges required
-			\item Easier/faster to develop
-			\item May not require C ({\tt python-fuse} etc.)
-			\item Performance overhead
+			\item Easier/faster to develop \pause
+			\item No root privileges required \pause
+			\item May not require C ({\tt python-fuse} etc.) \pause
+			\item Some performance overhead
 		\end{itemize}
 	}
 
 	\frame {
 		\frametitle{FUSE}
 
-		Kernel module and shared library for writing {\bf F}ilesystems in {\bf USE}rspace.
+		\pause
+
+		Linux kernel module and shared library for writing {\bf F}ilesystems in {\bf USE}rspace.
+
+		\pause
 
 		\begin{itemize}
 			\item SSHFS -- local access to remote files via SSH
 			\item FlickrFS -- view/upload photos as regular files
 			\item GmailFS -- uses your Gmail account as a storage medium
 			\item WikipediaFS -- view and edit Wikipedia articles as regular files
+			\item 10s more..
 		\end{itemize}
+
+		\pause
 
 		{\it Why is this cool?}
 	}
@@ -80,11 +94,15 @@
 	\frame {
 		\frametitle{Writing a filesystem with {\tt python-fuse}}
 
-		"Just" implement an API for manipulating files.
+		\pause
 
-		Kernel $\leftrightarrow$ FUSE $\leftrightarrow$ Our filesystem
+		Well, "just" implement the API for manipulating files
+
+		\pause
 
 		Callback-based.
+
+		Kernel $\leftrightarrow$ FUSE $\leftrightarrow$ Our filesystem
 	}
 
 	\frame {
@@ -98,14 +116,16 @@
 	}
 
 	\frame {
-		\frametitle{Gets complicated quickly}
+		\frametitle{}
 
 		Request mapped to method corresponding to the {\bf system call}
 
+		\pause
+
 		\begin{itemize}
-			\item Path management hairy
-			\item Methods must return correct values
-			\item Even simple use-cases require a lot of code
+			\item Path management bit hairy \pause
+			\item Methods really must return correct values \pause
+			\item Even simple use-cases require a lot of code \pause
 		\end{itemize}
 
 		{\it It's like writing old-school web apps!}
@@ -114,25 +134,32 @@
 \section{django-fuse}
 
 	\frame {
-		\frametitle{django-fuse}
+		\frametitle{How {\tt django-fuse} differs}
+
+		\pause
 
 		\begin{itemize}
-			\item Handles paths better
-			\item Common error cases handled automatically
-			\item Convenience wrappers for common cases
+			\item Handles paths better \pause
+			\item Common error cases handled automatically \pause
+			\item Convenience wrappers for common cases \pause
+			\item MVC-like architecture for filesystems
 		\end{itemize}
-
-		MVC-like architecture for filesystems
 	}
 
 	\frame {
 		\frametitle{Path management in {\tt django-fuse}}
 
+		\pause
+
 		Still callback-based, but:
+
+		\pause
 
 		\begin{itemize}
 			\item Kernel request is mapped to callback based on {\bf path}, not the system call
-			\item .. Using Django's URL resolution!
+			\pause
+			\item .. using Django's URL resolution!
+			\pause
 			\item Each part of filesystem looks like a Django view
 		\end{itemize}
 	}
@@ -156,6 +183,8 @@
 		{\tt myfuseapp/views.py}:
 
 		\lstinputlisting{listings/django-fuse-1-3.txt}
+
+		\pause
 
 		\lstinputlisting[language=sh]{listings/django-fuse-1-4.txt}
 	}
@@ -223,8 +252,10 @@
 	\frame {
 		\frametitle{Other helpers}
 
+		\pause
+
 		\begin{itemize}
-			\item Efficiently using {\tt QuerySet} objects as directory lists
+			\item Efficiently using {\tt QuerySet} objects in directory listings
 			\item Symbolic links
 		\end{itemize}
 	}
@@ -233,13 +264,19 @@
 	\frame {
 		\frametitle{Implementation}
 
+		\pause
+
 		\begin{itemize}
 		\item Implements every {\tt attr}/{\tt stat}/etc. call behind the scenes
+		\pause
 		\item When a request from the operating system arrives:
 			\begin{itemize}
 			\item Look up view method using {\tt django.core.urlresolvers.resolve}
+			\pause	
 			\item Call the view and get a response back
+			\pause	
 			\item The response objects implement the {\tt attr}/{\tt stat}/etc. details
+			\pause	
 			\item If we catch {\tt Http404}, return an appropriate error code for the request
 			\end{itemize}
 		\end{itemize}
@@ -252,8 +289,11 @@
 	\frame {
 		\frametitle{Other work}
 
+		\pause
+
 		\begin{itemize}
 			\item MacFUSE
+			\pause
 			\item Plan9
 		\end{itemize}
 	}

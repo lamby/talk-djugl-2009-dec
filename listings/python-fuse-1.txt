@@ -3,11 +3,11 @@ from fuse import Fuse
 class DummyFS(Fuse):
     def getattr(self, path): pass
     def open(self, path, flags): pass
-    def read(self, path, length, offset, f):
+    def read(self, path, length, offset, f): pass
     def readlink(self, path): pass
     def readdir(self, path, offset): pass
-    def access(self, path, mode):
-    def utime(self, path, times):
+    def access(self, path, mode): pass
+    def utime(self, path, times): pass
     def unlink(self, path): pass
     def rmdir(self, path): pass
     def symlink(self, path, path1): pass

@@ -45,20 +45,29 @@
 	\frame {
 		Linting is:
 
+		\pause
+
 		\begin{itemize}
 	 	\item For finding suspicious source code
+		\pause
 		\item Examples of linters; {\tt pylint}, {\tt pychecker}, Coverity, most compilers, etc.
-		\item {\it ``Hey, doesn't `./manage.py validate' do that?''}
+		\pause
+		\item {\it Hey, doesn't `./manage.py validate' do that?}
 		\end{itemize}
 	}
 
 	\frame {
 		Linting is not:
 
+		\pause
+
 		\begin{itemize}
 		\item A panacea for code quality
+		\pause
 		\item A replacement for unit tests
+		\pause
 		\item An authority
+		\pause
 		\item To be trusted
 		\end{itemize}
 	}
@@ -66,11 +75,17 @@
 \section{django-lint}
 	
 	\frame {
+		\frametitle{}
+
 		{\tt django-lint} is:
+
+		\pause
 
 		\begin{itemize}
 			\item A linter that finds suspicious code in Django projects
+			\pause
 			\item Tries to promote the use of modular applications
+			\pause
 			\item Current focus on suspicious data modelling
 		\end{itemize}
 	}
@@ -78,9 +93,13 @@
 	\subsection{Examples}
 
 	\frame {
-		Example:
+		\frametitle{Examples}
+
+		\pause
 
 		\LintExample{01}
+
+		\pause
 
 		{\it Hey, but sometimes X is a valid way to do that!}
 	}
@@ -123,14 +142,19 @@
 	\subsection{Implementation}
 	\frame {
 		\frametitle{Implementation of django-lint}
+		\pause
 		\begin{itemize}
 		\item Uses PyLint:
 			\begin{itemize}
 			\item Cool type and value inference 
+			\pause
 			\item Hides (most of) the parsing AST nastiness
+			\pause
 			\item Mechanisms for surpressing messagees
 			\end{itemize}
-		\item Just runs Django-specific tests -- append {\tt --pylint} for all
+		\pause
+		\item Just runs Django-specific tests: append {\tt --pylint} for all
+		\pause
 		\item Not a management command?
 	 	\end{itemize}
 	}
@@ -141,41 +165,55 @@
 
 		Project is never finished due to changes in:
 
+		\pause
+
 		\begin{itemize}
 		\item Django
+		\pause
 		\item PyLint
+		\pause
 		\item Fashion
 		\end{itemize}
 	}
 	\frame {
 		\frametitle{Future checks}
 
+		4 areas:
+
+		\pause
+
 		More model checks:
 
 		\begin{itemize}
-		\item Default managers overriding getqueryset
+		\item Default managers adding a (restrictive) {\tt .get\_query\_set()}
+		\pause
 		\item Other pet dislikes
 		\end{itemize}
 	}
 	\frame {
 		Views:
+		\pause
 
 		\begin{itemize}
 		\item Using convenience/portability wrappers ({\tt utils.hashcompat},
 			{\tt utils.simplejson}, {\tt conf.settings} etc.)
+		\pause
 		\item Using deprecated APIs (oldforms, etc.)
 		\end{itemize}
 	}
 	\frame {
 		Templates:
+		\pause
 
 		\begin{itemize}
 		\item Problematic - {\tt \{\% extends \%\}} and {\tt \{\% include \%\}} arguments are dynamic
-		\item Eric Holscher's ``Gentlemans agreement on Django templates''
+		\pause
+		\item Eric Holscher's ``Gentlemans agreement on Django templates''?
 		\end{itemize}
 	}
 	\frame {
 		Project layout:
+		\pause
 
 		\begin{itemize}
 		\item Forms not in {\tt myapp/forms.py}
