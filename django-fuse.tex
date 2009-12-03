@@ -13,7 +13,7 @@
 \usepackage{verbatim} 
 
 \usepackage{listings} 
-\lstset{basicstyle=\ttfamily}
+\lstset{basicstyle=\ttfamily\small,language=Python,frame=single,showspaces=false}
 
 \title{django-fuse}
 \author{Chris Lamb}
@@ -21,112 +21,260 @@
 
 \begin{document}
 
-\frame{\titlepage}
+\frame{
+	\titlepage
+}
+
+\frame {
+	\tableofcontents
+}
+
+\setlength{\parskip}{1cm}
 
 \section{FUSE and userspace filesystems}
 
-	\subsection{What is FUSE?}
+	\subsection{Filesytems}
 
 	\frame {
-		\frametitle{"Filesystem in Userspace"}
+		\frametitle{Filesystems}
+
+		Filesystems "just" implement an API for manipulating files.
+
 		\begin{itemize}
-			\item Implement filesystems in userspace programs instead of in the kernel
+			\item Locally (ext2, ext3, NTFS)
+			\item Remotely (NFS, SMB)
+			\item Nowhere ({\tt /proc})
+			\item Combination of the above
+		\end{itemize}
+	}
+
+	\frame {
+		\frametitle{Userspace filesystems}
+
+		$\rightarrow$ Filesystems not implemented in the kernel.
+
+		\begin{itemize}
 			\item No root privileges required
-			\item Don't have to use C
-			\item Implemented as kernel module and shared library
-			\item MacFUSE?
+			\item Easier/faster to develop
+			\item May not require C ({\tt python-fuse} etc.)
+			\item Performance overhead
 		\end{itemize}
 	}
 
 	\frame {
-		\frametitle{Examples of FUSE filesystems}
+		\frametitle{FUSE}
+
+		Kernel module and shared library for writing {\bf F}ilesystems in {\bf USE}rspace.
+
 		\begin{itemize}
-			\item FIXME
-			\item FIXME
+			\item SSHFS -- local access to remote files via SSH
+			\item FlickrFS -- view/upload photos as regular files
+			\item GmailFS -- uses your Gmail account as a storage medium
+			\item WikipediaFS -- view and edit Wikipedia articles as regular files
 		\end{itemize}
+
+		{\it Why is this cool?}
 	}
 
-	\subsection{A typically \tt{python-fuse} app}
+	\subsection{A typical {\tt python-fuse} app}
 	\frame {
-	 * Outline of the binding
+		\frametitle{Writing a filesystem with {\tt python-fuse}}
 
-		Request from OS	=>	python-fuse => def attr(path, arg1)
-																				def stat(path, arg2)
+		"Just" implement an API for manipulating files.
 
-		 - Maps a request for the operating system to function
-		 - Request mapped to method corresponding to the data required
+		Kernel $\leftrightarrow$ FUSE $\leftrightarrow$ Our filesystem
+
+		Callback-based.
 	}
 
 	\frame {
-		 Example
+		\frametitle{A typical {\tt python-fuse} app}
+
+		\lstinputlisting{listings/python-fuse-1.txt}
+	}
+
+	\frame {
+		\lstinputlisting{listings/python-fuse-2.txt}
+	}
+
+	\frame {
+		\frametitle{Gets complicated quickly}
+
+		Request mapped to method corresponding to the {\bf system call}
+
+		\begin{itemize}
+			\item Path management hairy
+			\item Methods must return correct values
+			\item Even simple use-cases require a lot of code
+		\end{itemize}
+
+		{\it It's like writing old-school web apps!}
 	}
 
 \section{django-fuse}
 
 	\frame {
-		What it is
+		\frametitle{django-fuse}
 
-		 - improved API
-		 - convenience
-		 - ability to use
+		\begin{itemize}
+			\item Handles paths better
+			\item Common error cases handled automatically
+			\item Convenience wrappers for common cases
+		\end{itemize}
+
+		MVC-like architecture for filesystems
 	}
 
-	\subsection{Improved API}
 	\frame {
-	django-fuse is
-	 * Abstraction over python-fuse
-	 * Request path mapped to method, not the system call
-		 - Using Django url resolution!
-	 - Each part of your filesystem looks like a view
-	 - Returns a 'Response' object depending on what you're modelling
-			(eg. a file, directory, symlink, etc)
-	}
-	\subsection{Convenience}
+		\frametitle{Path management in {\tt django-fuse}}
 
-	blah
+		Still callback-based, but:
 
-	\subsection{Ability to use Django functionality}
-
-	\frame {
-		Same models, same.
+		\begin{itemize}
+			\item Kernel request is mapped to callback based on {\bf path}, not the system call
+			\item .. Using Django's URL resolution!
+			\item Each part of filesystem looks like a Django view
+		\end{itemize}
 	}
 
-	\subsection{Examples}
+	\subsection{Some examples}
 	\frame {
-		 * WrappedFiles
-		 * Files with dynamic content
-		 * Directory
-		 * Database-backed files
-		 * Dynamically named files
+		\frametitle{Example}
+
+		{\tt settings.py}:
+
+		\lstinputlisting{listings/django-fuse-1-1.txt}
+
+		{\tt myfuseapp/urls.py}:
+
+		\lstinputlisting{listings/django-fuse-1-2.txt}
+	}
+
+	\frame {
+		\frametitle{Example (continued)}
+
+		{\tt myfuseapp/views.py}:
+
+		\lstinputlisting{listings/django-fuse-1-3.txt}
+
+		\lstinputlisting[language=sh]{listings/django-fuse-1-4.txt}
+	}
+
+	\frame {
+		\frametitle{Example (continued)}
+
+		Need to specify URL for the file we claim exists.
+
+		{\tt myfuseapp/urls.py}:
+
+		\lstinputlisting{listings/django-fuse-1-5.txt}
+	}
+
+	\frame {
+		\frametitle{Example (continued)}
+
+		{\tt myfuseapp/views.py}:
+
+		\lstinputlisting{listings/django-fuse-1-6.txt}
+	}
+
+	\frame {
+		\frametitle{Example (continued)}
+
+		\lstinputlisting[language=sh]{listings/django-fuse-1-7.txt}
+	}
+
+	\frame {
+		\frametitle{Wrapping an existing file}
+
+		{\tt myfuseapp/urls.py}:
+
+		\lstinputlisting{listings/django-fuse-2-1.txt}
+
+		{\tt myfuseapp/views.py}:
+
+		\lstinputlisting{listings/django-fuse-2-2.txt}
+	}
+
+	\frame {
+		\frametitle{Wrapping an existing file (continued)}
+
+		\lstinputlisting{listings/django-fuse-2-3.txt}
+	}
+
+	\frame {
+		\frametitle{Dynamic files}
+
+		{\tt myfuseapp/urls.py}:
+
+		\lstinputlisting{listings/django-fuse-3-1.txt}
+
+		{\tt myfuseapp/views.py}:
+
+		\lstinputlisting{listings/django-fuse-3-2.txt}
+	}
+
+	\frame {
+		\frametitle{Dynamic files (continued)}
+
+		\lstinputlisting{listings/django-fuse-3-3.txt}
+	}
+
+	\frame {
+		\frametitle{Other helpers}
+
+		\begin{itemize}
+			\item Efficiently using {\tt QuerySet} objects as directory lists
+			\item Symbolic links
+		\end{itemize}
 	}
 	
 	\subsection{Implementation}
 	\frame {
-	 * django-fuse implements each attr/stat/etc call behind the scenes
-	 * When a request from the OS comes in:
-			- Lookup view method using the path django.core.urlresolvers.resolve
-			- Call the view and get the response back
-			- Response objects actual implement the attr/stat details;
-				 call which ever the OS is wanting this time
+		\frametitle{Implementation}
+
+		\begin{itemize}
+		\item Implements every {\tt attr}/{\tt stat}/etc. call behind the scenes
+		\item When a request from the operating system arrives:
+			\begin{itemize}
+			\item Look up view method using {\tt django.core.urlresolvers.resolve}
+			\item Call the view and get a response back
+			\item The response objects implement the {\tt attr}/{\tt stat}/etc. details
+			\item If we catch {\tt Http404}, return an appropriate error code for the request
+			\end{itemize}
+		\end{itemize}
 	}
 
 \section{Conclusion}
 
+	\subsection{Other work}
+
+	\frame {
+		\frametitle{Other work}
+
+		\begin{itemize}
+			\item MacFUSE
+			\item Plan9
+		\end{itemize}
+	}
+
 	\subsection{Code}
 	\frame {
-		Code available under GPL-3+:
+		\frametitle{Getting the code}
 
-		\vskip 1em
+		Code available under GPL-3+.
+
 		{\tt \$ git clone git://chris-lamb.co.uk/django-fuse }
-		\vskip 1em
+
+		Tarballs at \url{http://chris-lamb.co.uk/projects/django-fuse}
 
 		Patches welcome.
 	}
 
 	\subsection{Questions}
 	\frame {
-			\vskip 0em
-			Questions?
+		\vskip 0em
+		Questions?
 	}
 
 \end{document}

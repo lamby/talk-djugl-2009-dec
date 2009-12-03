@@ -1,0 +1,4 @@
+urlpatterns = patterns('myfuseapp.views',
+   url(r'^$', 'index'),
+   url(r'^file.txt$', 'filetxt'),
+)

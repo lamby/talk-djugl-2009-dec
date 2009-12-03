@@ -1,0 +1,11 @@
+TEMPLATE_DIRS = (
+ 'relative/directory',
+)
+
+MIDDLEWARE_CLASSES = (
+ 'django.middleware.common.CommonMiddleware',
+ 'django.contrib.auth.middleware.AuthenticationMiddleware',
+ 'django.contrib.sessions.middleware.SessionMiddleware',
+ 'django.middleware.common.CommonMiddleware',
+ 'django.middleware.http.ConditionalGetMiddleware',
+)

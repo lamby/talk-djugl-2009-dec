@@ -1,0 +1,2 @@
+$ django-lint models.py
+W:  3:BigModel: Model has too many fields (31/20); consider splitting model

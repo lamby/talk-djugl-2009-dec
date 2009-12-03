@@ -1,0 +1,5 @@
+from django_fuse import DirectoryResponse
+
+def index():
+    items = ['file.txt']
+    return DirectoryResponse(items)

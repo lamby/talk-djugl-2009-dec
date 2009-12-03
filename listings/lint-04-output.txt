@@ -1,0 +1,2 @@
+$ django-lint models.py
+W:  11:MyModel: Standard model method should come before 'get_absolute_url'

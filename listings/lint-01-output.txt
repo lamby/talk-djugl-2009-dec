@@ -1,0 +1,2 @@
+$ django-lint models.py
+W:  4:MyModel: field: Nullable CharField or TextField

@@ -1,0 +1,3 @@
+$ django-lint settings.py
+W:  2: Non-absolute directory 'relative/directory' in TEMPLATE_DIRS
+W:  5: SessionMiddleware after AuthenticationMiddleware

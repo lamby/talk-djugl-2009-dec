@@ -1,0 +1,3 @@
+urlpatterns = patterns('myfuseapp.views',
+   url(r'^([a-z])\.txt$', 'letter'),
+)

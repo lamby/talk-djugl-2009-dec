@@ -1,0 +1,9 @@
+from django.db import models
+
+class BigModel(models.Model):
+    field01 = models.IntegerField()
+    field02 = models.IntegerField()
+    field03 = models.IntegerField()
+    # etc..
+    field30 = models.IntegerField()
+    field31 = models.IntegerField()

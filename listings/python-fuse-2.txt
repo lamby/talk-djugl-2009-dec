@@ -1,0 +1,13 @@
+# [..]
+
+    def rename(self, path, path1): pass
+    def link(self, path, path1): pass
+    def chmod(self, path, mode): pass
+    def chown(self, path, user, group): pass
+    def truncate(self, path, len): pass
+    def mknod(self, path, mode, dev): pass
+    def mkdir(self, path, mode): pass
+    def create(self, path, flags, *mode): pass
+    def flush(self, path, file_): pass
+    def write(self, path, buf, offset, f): pass
+    def release(self, path, flags, file_): pass

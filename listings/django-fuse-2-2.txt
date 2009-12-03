@@ -1,0 +1,9 @@
+from django_fuse import DirectoryResponse,
+    WrappedFileResponse
+
+def index():
+    items = ['hostname.txt']
+    return DirectoryResponse(items)
+
+def hostname():
+    return WrappedFileResponse('/etc/hostname')

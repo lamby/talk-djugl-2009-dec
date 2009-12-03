@@ -1,0 +1,3 @@
+$ django-lint models.py
+W:  4:MyModel: created: Uses deprecated auto_now or auto_now_add
+W:  5:MyModel: updated: Uses deprecated auto_now or auto_now_add

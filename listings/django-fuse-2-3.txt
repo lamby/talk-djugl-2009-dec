@@ -1,0 +1,15 @@
+$ mkdir mountpoint
+
+$ ./manage.py mount mountpoint
+
+$ ls -l mountpoint
+total 1
+-rw-r--r-- 1 root root 7 2008-09-18 hostname.txt
+
+$ cat mountpoint/hostname.txt
+bobcat
+
+$ cat /etc/hostname
+bobcat
+
+$ fusermount -u mountpoint

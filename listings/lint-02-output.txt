@@ -1,0 +1,2 @@
+$ django-lint models.py
+W:  4:MyModel: parent: Naive tree structure implementation using ForeignKey('self')

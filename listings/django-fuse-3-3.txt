@@ -1,0 +1,11 @@
+$ mkdir mountpoint
+
+$ ./manage.py mount mountpoint
+
+$ cat mountpoint/a.txt
+This is a.txt
+
+$ cat mountpoint/z.txt
+This is z.txt
+
+$ fusermount -u mountpoint

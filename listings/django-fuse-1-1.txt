@@ -1,0 +1,2 @@
+ROOT_URLCONF = 'myapp.urls'
+FUSE_URLCONF = 'myfuseapp.urls' # new

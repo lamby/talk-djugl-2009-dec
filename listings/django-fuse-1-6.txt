@@ -1,0 +1,13 @@
+from django.template import Context, Template
+
+from django_fuse import DirectoryResponse, FileResponse
+
+def index():
+    items = ['file.txt']
+    return DirectoryResponse(items)
+
+def filetxt():
+    t = Template("This is file.txt!\n")
+    c = Context()
+
+    return FileResponse(t.render(c))

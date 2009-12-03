@@ -1,0 +1,12 @@
+$ mkdir mountpoint
+
+$ ./manage.py mount mountpoint
+
+$ ls -l mountpoint
+total 1
+-r--r--r-- 1 root root 18 1970-01-01 file.txt
+
+$ cat mountpoint/file.txt
+This is file.txt!
+
+$ fusermount -u mountpoint

@@ -1,0 +1,10 @@
+from django.template import Context, Template
+
+from django_fuse import DirectoryResponse, \
+    FileResponse
+
+def letter(letter):
+    t = Template("""This is {{ letter }}.txt\n""")
+    c = Context({'letter': letter})
+
+    return FileResponse(t.render(c))

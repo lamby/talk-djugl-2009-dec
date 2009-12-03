@@ -1,0 +1,9 @@
+$ mkdir mountpoint
+
+$ ./manage.py mount mountpoint
+
+$ ls -l mountpoint
+total 0
+?????????? ? ? ? ?                ? file.txt
+
+$ fusermount -u mountpoint
