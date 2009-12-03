@@ -1,0 +1,132 @@
+\documentclass{beamer}
+
+% Minimalistic
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=black}
+\setbeamercolor{normal text}{fg=white}
+\setbeamercolor{structure}{fg=white}
+
+% Nicer title font
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+
+\usepackage{graphicx}
+\usepackage{verbatim} 
+
+\usepackage{listings} 
+\lstset{basicstyle=\ttfamily}
+
+\title{django-fuse}
+\author{Chris Lamb}
+\date{3rd December 2009}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{FUSE and userspace filesystems}
+
+	\subsection{What is FUSE?}
+
+	\frame {
+		\frametitle{"Filesystem in Userspace"}
+		\begin{itemize}
+			\item Implement filesystems in userspace programs instead of in the kernel
+			\item No root privileges required
+			\item Don't have to use C
+			\item Implemented as kernel module and shared library
+			\item MacFUSE?
+		\end{itemize}
+	}
+
+	\frame {
+		\frametitle{Examples of FUSE filesystems}
+		\begin{itemize}
+			\item FIXME
+			\item FIXME
+		\end{itemize}
+	}
+
+	\subsection{A typically \tt{python-fuse} app}
+	\frame {
+	 * Outline of the binding
+
+		Request from OS	=>	python-fuse => def attr(path, arg1)
+																				def stat(path, arg2)
+
+		 - Maps a request for the operating system to function
+		 - Request mapped to method corresponding to the data required
+	}
+
+	\frame {
+		 Example
+	}
+
+\section{django-fuse}
+
+	\frame {
+		What it is
+
+		 - improved API
+		 - convenience
+		 - ability to use
+	}
+
+	\subsection{Improved API}
+	\frame {
+	django-fuse is
+	 * Abstraction over python-fuse
+	 * Request path mapped to method, not the system call
+		 - Using Django url resolution!
+	 - Each part of your filesystem looks like a view
+	 - Returns a 'Response' object depending on what you're modelling
+			(eg. a file, directory, symlink, etc)
+	}
+	\subsection{Convenience}
+
+	blah
+
+	\subsection{Ability to use Django functionality}
+
+	\frame {
+		Same models, same.
+	}
+
+	\subsection{Examples}
+	\frame {
+		 * WrappedFiles
+		 * Files with dynamic content
+		 * Directory
+		 * Database-backed files
+		 * Dynamically named files
+	}
+	
+	\subsection{Implementation}
+	\frame {
+	 * django-fuse implements each attr/stat/etc call behind the scenes
+	 * When a request from the OS comes in:
+			- Lookup view method using the path django.core.urlresolvers.resolve
+			- Call the view and get the response back
+			- Response objects actual implement the attr/stat details;
+				 call which ever the OS is wanting this time
+	}
+
+\section{Conclusion}
+
+	\subsection{Code}
+	\frame {
+		Code available under GPL-3+:
+
+		\vskip 1em
+		{\tt \$ git clone git://chris-lamb.co.uk/django-fuse }
+		\vskip 1em
+
+		Patches welcome.
+	}
+
+	\subsection{Questions}
+	\frame {
+			\vskip 0em
+			Questions?
+	}
+
+\end{document}

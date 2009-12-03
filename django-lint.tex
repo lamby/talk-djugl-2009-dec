@@ -1,0 +1,173 @@
+\documentclass{beamer}
+
+% Minimalistic
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=black}
+\setbeamercolor{normal text}{fg=white}
+\setbeamercolor{structure}{fg=white}
+
+% Nicer fonts
+\usefonttheme{structurebold}
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+
+\usepackage{graphicx}
+\usepackage{verbatim} 
+
+\usepackage{listings} 
+\lstset{basicstyle=\ttfamily}
+
+\title{django-lint}
+\author{Chris Lamb}
+\date{3rd December 2009}
+
+\begin{document}
+
+\frame{
+	\titlepage
+}
+
+\frame {
+	\tableofcontents
+}
+
+\section{Introduction to linting}
+	\subsection{What is linting?}
+
+	\frame {
+		Linting is:
+
+		\begin{itemize}
+	 	\item Finding suspicious source code
+		\item Examples of linters; {\tt pylint}, {\tt pychecker}, Coverity, most compilers
+		\item {\it Hey, doesn't "./manage.py validate" do that?}
+		\end{itemize}
+	}
+
+	\subsection{What is linting not?}
+
+	\frame {
+		Linting is not:
+
+		\begin{itemize}
+		\item A panacea for code quality
+		\item A replacement for unit tests
+		\item To be trusted
+		\end{itemize}
+	}
+
+\section{django-lint}
+	
+	\frame {
+		django-lint is:
+
+		\begin{itemize}
+			\item Linter that finds suspicious code in Django projects
+			\item Tries to promote the use of modular applications
+			\item Current focus on suspicious data modelling
+		\end{itemize}
+	}
+
+	\subsection{Examples}
+
+	\frame {
+		Example
+	}
+
+	\frame {
+		\vskip 0em
+		{\it Hey, but sometimes X is a valid way to do that!}
+	}
+
+	\frame {
+		Example
+	}
+
+	\frame {
+		Example
+	}
+
+	\frame {
+		Example
+	}
+
+	\frame {
+		\vskip 0em
+		{\it So, when should I be linting?}
+	}
+
+	\subsection{Implementation}
+	\frame {
+		\frametitle{Implementation of django-lint}
+		\begin{itemize}
+		\item Uses PyLint:
+			\begin{itemize}
+			\item Cool type and value inference 
+			\item Hides (most of) the parsing AST nastiness
+			\item Mechanisms for surpressing messagees
+			\end{itemize}
+		\item Just runs Django-specific tests -- {\tt --pylint} for all
+		\item Not a management command?
+	 	\end{itemize}
+	}
+
+	\subsection{Future plans}
+	\frame {
+		Never finished due changes in:
+
+		\begin{itemize}
+		\item Django
+		\item Fashion
+		\end{itemize}
+	}
+	\frame {
+		More model checks:
+
+		\begin{itemize}
+		\item Default managers overriding getqueryset
+		\item Other pet dislikes
+		\end{itemize}
+	}
+	\frame {
+		Linting views:
+
+		\begin{itemize}
+		\item Using convenience/portability wrappers ({\tt md5},
+			{\tt django.utils.simplejson}, {\tt django.conf.settings} etc.)
+		\item Using deprecated APIs (oldforms, etc.)
+		\end{itemize}
+	}
+	\frame {
+		Linting templates:
+
+		\begin{itemize}
+		\item Problematic; extends and IncludeNode arguments are dynamic
+		\end{itemize}
+	}
+	\frame {
+		Linting layout:
+
+		\begin{itemize}
+		\item Forms not in {\tt myapp/forms.py}
+		\item Admin classes not in {\tt myapp/admin.py}
+		\end{itemize}
+	}
+
+\section{Conclusion}
+	\subsection{Code}
+
+	\frame {
+		Code available under GPL-3+:
+
+		\vskip 1em
+		{\tt \$ git clone git://chris-lamb.co.uk/django-lint }
+		\vskip 1em
+
+		Patches welcome.
+	}
+
+	\subsection{Questions}
+	\frame {
+		Questions?
+	}
+
+\end{document}
